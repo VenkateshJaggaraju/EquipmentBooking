@@ -151,21 +151,7 @@ concurrency safety. Tests should issue competing requests at the same
 time and verify that total reservations never exceed five. This requires
 transaction handling and appropriate database locking or equivalent
 atomic reservation logic.
-Suggested project structure
-Exact package and file names may differ in your implementation.
-src/
-└── main/
-    ├── java/
-    │   └── .../
-    │       ├── controller/   # REST endpoints
-    │       ├── service/      # Booking and availability logic
-    │       ├── repository/   # Spring Data JPA repositories
-    │       ├── entity/       # JPA entities
-    │       ├── dto/          # Request and response DTOs
-    │       ├── mapper/       # DTO/entity mapping
-    │       └── exception/    # Exception handling, if implemented
-    └── resources/
-        └── application.properties
+
 Business rules
 - Daily capacity: five laptops.
 - Capacity is independent for each date.
