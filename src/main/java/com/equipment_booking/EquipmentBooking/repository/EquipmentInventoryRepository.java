@@ -36,4 +36,16 @@ public interface EquipmentInventoryRepository extends JpaRepository<EquipmentInv
             @Param("bookingDate") LocalDate bookingDate
     );
 }
+/*
+ * Pessimistic locking (Good fit here)
+        - Locks the inventory row before checking and updating availability.
+          Another transaction that needs the same row must wait until the lock is released.
+        - Best when conflicting updates are likely and overbooking must be prevented.
 
+
+ * Optimistic locking
+        - Uses a version field, usually with @Version, to detect conflicting updates.
+        - A transaction may fail when another transaction changes the same record, requiring retry
+          or conflict handling.
+        - Best when conflicts are relatively uncommon.
+ */

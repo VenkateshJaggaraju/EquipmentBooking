@@ -8,8 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 
-public interface BookingRepository
-        extends JpaRepository<Booking, Long> {
+public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     @Query("""
         SELECT COALESCE(SUM(b.quantity), 0)

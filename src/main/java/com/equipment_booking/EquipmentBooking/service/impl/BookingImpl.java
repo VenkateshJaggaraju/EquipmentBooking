@@ -34,20 +34,21 @@ public class BookingImpl implements BookingService {
     public ResponseEntity<BookingResponseDTO> createBooking(BookingRequestDTO requestDTO) {
         LocalDate date = requestDTO.getBookingDate();
 
-        // Ensure that an inventory row exists for this date.
+        // 1. Create inventory if it doesn't exist
         inventoryRepository.createInventoryIfMissing(date);
 
-        // Lock the inventory row before checking availability.
+        // 2. Lock inventory for the requested date
         EquipmentInventory inventory = inventoryRepository
                 .findByDateForUpdate(date)
                 .orElseThrow(() -> new IllegalStateException(
                         "Inventory not found for date: " + date
                 ));
 
-        // Calculate the number of laptops already reserved.
+        // 3. Calculate reserved quantity
         long reserved =
                 bookingRepository.getReservedQuantityByDate(date);
 
+        // 4. Check available quantity
         int available =
                 inventory.getTotalQuantity() - (int) reserved;
 
@@ -63,10 +64,11 @@ public class BookingImpl implements BookingService {
         // Accept only ifn't exceeded
         Booking booking = bookingMapper.toEntity(requestDTO);
 
-        // Save the booking. @PrePersist sets status and createdAt.
+        // 5. Save booking
+        // @PrePersist sets status and createdAt.
         Booking savedBooking = bookingRepository.save(booking);
 
-        // Convert the saved entity to the response DTO.
+        // 6. Return the response
         BookingResponseDTO response= bookingMapper.toResponseDTO(savedBooking);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
