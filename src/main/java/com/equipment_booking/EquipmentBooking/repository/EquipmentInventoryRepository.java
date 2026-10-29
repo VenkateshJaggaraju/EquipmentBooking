@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.util.Optional;
 
-public interface EquipmentInventoryRepository extends JpaRepository<EquipmentInventory, LocalDate>
+public interface EquipmentInventoryRepository extends JpaRepository<EquipmentInventory, Long>
 {
     //insert a record for a booking date with a capacity of five laptops, but do nothing if that date already exists
     @Modifying

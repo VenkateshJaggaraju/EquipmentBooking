@@ -62,6 +62,7 @@ public class BookingImpl implements BookingService {
         }
 
         // Accept only ifn't exceeded
+
         Booking booking = bookingMapper.toEntity(requestDTO);
 
         // 5. Save booking
